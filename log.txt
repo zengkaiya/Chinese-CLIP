@@ -1,0 +1,73 @@
+## Todo
+* 等7M的数据清洗完
+
+## 记录
+* 收集评测结果，两种任务都支持
+python run_scripts/tools/collect_zeroshot_results.py \
+    --input evaluation/retrieval/tianwang36w_finetune_vit-b-16.txt \
+    --digits 1
+
+* 数据清洗，里面需要改一些路径
+需要改一下脚本，比如相似度计算完，最后按照降序来排列。以及出一个统计分析报告，各个分段大概多少数据量
+GPU_IDS=0,1,2,3,4,5,6,7 \
+  IMAGE_BATCH_SIZE=256 \
+  TEXT_BATCH_SIZE=1024 \
+  IMAGE_WORKERS=12 \
+  bash run_scripts/tools/filter_tianwang_caption_similarity_multi.sh
+
+* 数据转换
+第一步
+* 直接从原始的图文对转换
+python run_scripts/tools/convert_tianwang_manifest.py \
+    --manifest /mnt/bn/yuyingchen/zk/project/miscs/tianwang/outputs/final/pairs/2015/image_text_pairs_new_with_caption_similarity_filtered.jsonl \
+    --tianwang-root /mnt/bn/yuyingchen/zk/project/miscs/tianwang \
+    --output-dir evaluation/datasets/tianwang_3M \
+    --workers 128 \
+    --skip-invalid-images \
+    --skip-empty-captions
+
+* 从danqing的数据转换
+python run_scripts/tools/convert_tianwang_recordio.py \
+    --input-prefix /mnt/bn/yuyingchen/zk/project/miscs/tianwang/outputs/final/danqing/2015/final \
+    --output-dir evaluation/datasets/tianwang36w \
+    --tokenizer-src /mnt/bn/yuyingchen/zk/project/miscs/tianwang/cn-clip-ctp/src \
+    --workers 64 \
+    --skip-invalid-images
+
+
+第二步
+这个最好也要加速下，太慢了
+
+python cn_clip/preprocess/build_lmdb_dataset.py \
+    --data_dir evaluation/datasets/tianwang36w \
+    --splits train
+
+bash run_scripts/tools/convert.sh。去里面修改参数
+
+* continue pretrain
+bash run_scripts/zk/train/tianwang_finetune_vit-b-16_rbt-base-local.sh
+
+evaluation/datasets/tianwang_1.3M中有，1238041条记录
+
+* 训练相关issue：https://github.com/OFA-Sys/Chinese-CLIP/issues/139
+
+python /mnt/bn/yuyingchen/zk/scripts/train_null_one.py half
+
+* 基于原始的clip训练
+python3 -m torch.distributed.launch \
+    --nproc_per_node=8 \
+    cn_clip/training/main.py \
+    --train-data=/path/to/dataset/lmdb/train \
+    --clip-weight-path=/path/to/openai_clip.pt \
+    --bert-weight-path=/path/to/chinese_bert.pt \
+    --vision-model=ViT-B-16 \
+    --text-model=RoBERTa-wwm-ext-base-chinese \
+    --batch-size=128 \
+    --max-epochs=10
+
+
+## 常用命令
+* 下载模型
+HF_TOKEN=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 hf download OFA-Sys/chinese-clip-vit-large-patch14 --local-dir evaluation/pretrained_weights --include "clip_cn_vit-l-14.pt"
+
+HF_TOKEN=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 hf download OFA-Sys/chinese-clip-eval --repo-type dataset --local-dir evaluation/datasets

@@ -35,6 +35,8 @@ def parse_args():
     )
     parser.add_argument(
         "--logs",
+        "--output-dir",
+        dest="logs",
         type=str,
         default="./logs/",
         help="Where to store logs. Use None to avoid storing logs.",
