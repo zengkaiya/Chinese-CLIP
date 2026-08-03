@@ -8,7 +8,7 @@ cd /mnt/bn/yuyingchen/zk/project/miscs/Chinese-CLIP
 export CUDA_VISIBLE_DEVICES=0
 export PYTHONPATH="${PYTHONPATH:-}:$(pwd)/cn_clip"
 
-dataset_name=tianwang36w
+dataset_name=tianwang51w
 
 vision_model=ViT-B-16
 text_model=RoBERTa-wwm-ext-base-chinese

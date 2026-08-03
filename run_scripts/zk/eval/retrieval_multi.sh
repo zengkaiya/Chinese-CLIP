@@ -8,7 +8,7 @@ cd /mnt/bn/yuyingchen/zk/project/miscs/Chinese-CLIP
 export CUDA_VISIBLE_DEVICES=1
 export PYTHONPATH="${PYTHONPATH:-}:$(pwd)/cn_clip"
 
-dataset_name=tianwang36w
+dataset_name=tianwang51w
 
 DATAPATH=evaluation
 resume=evaluation/experiments/${dataset_name}_finetune_vit-b-16_roberta-base/checkpoints/epoch_latest.pt

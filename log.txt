@@ -1,10 +1,26 @@
 ## Todo
-* 等7M的数据清洗完
+* 保存模型权重，保存训练数据，就这两步
+* 还有保存实验结果
+
+完成run_scripts/tools/copy_data_weight.py代码，输入evaluation/experiments目录，把所有一tianwang开头的实验，里面checkpoints目录的epoch_latest.pt复制到
+  evaluation/tianwang_exp/ckpts同目录下，比如evaluation/experiments/tianwang_1.3M_finetune_vit-b-16_roberta-base/checkpoints/epoch_latest.pt复制到
+  evaluation/tianwang_exp/ckpts/tianwang_1.3M_finetune_vit-b-16_roberta-base/checkpoints/epoch_latest.pt，只复制这一个文件
+
+
+
+// ~/.codex/auth.json
+{
+  "OPENAI_API_KEY": "sk-b894051be602cd1ae24b93d164a42df5f7b52bab59dd2c5bf6178dd223c4fb97"
+}
 
 ## 记录
 * 收集评测结果，两种任务都支持
 python run_scripts/tools/collect_zeroshot_results.py \
-    --input evaluation/retrieval/tianwang36w_finetune_vit-b-16.txt \
+    --input evaluation/zeroshot_classify/tianwang51w_finetune_vit-b-16/zeroshot_classify_multi_results.txt \
+    --digits 3
+
+python run_scripts/tools/collect_zeroshot_results.py \
+    --input evaluation/retrieval/tianwang51w_finetune_vit-b-16.txt \
     --digits 1
 
 * 数据清洗，里面需要改一些路径
@@ -28,8 +44,8 @@ python run_scripts/tools/convert_tianwang_manifest.py \
 
 * 从danqing的数据转换
 python run_scripts/tools/convert_tianwang_recordio.py \
-    --input-prefix /mnt/bn/yuyingchen/zk/project/miscs/tianwang/outputs/final/danqing/2015/final \
-    --output-dir evaluation/datasets/tianwang36w \
+    --input-prefix /mnt/bn/yuyingchen/zk/project/miscs/tianwang/outputs/final/danqing/2015_v2/final \
+    --output-dir evaluation/datasets/tianwang24w \
     --tokenizer-src /mnt/bn/yuyingchen/zk/project/miscs/tianwang/cn-clip-ctp/src \
     --workers 64 \
     --skip-invalid-images
@@ -42,7 +58,8 @@ python cn_clip/preprocess/build_lmdb_dataset.py \
     --data_dir evaluation/datasets/tianwang36w \
     --splits train
 
-bash run_scripts/tools/convert.sh。去里面修改参数
+去里面修改参数
+bash run_scripts/tools/convert.sh
 
 * continue pretrain
 bash run_scripts/zk/train/tianwang_finetune_vit-b-16_rbt-base-local.sh

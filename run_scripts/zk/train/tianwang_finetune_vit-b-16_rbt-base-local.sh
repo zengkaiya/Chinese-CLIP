@@ -15,7 +15,7 @@ unset NCCL_NET_PLUGIN                # 禁用 FasTrak 插件自动注入
 export NCCL_IB_DISABLE=1             # 若无 IB/RDMA，禁用以减少不确定性
 
 # Number of GPUs per GPU worker
-GPUS_PER_NODE=8
+GPUS_PER_NODE=4
 # Number of GPU workers, for single-worker training, please set to 1
 WORKER_CNT=1
 # The ip address of the rank-0 worker, for single-worker training, please set to localhost
@@ -26,7 +26,7 @@ export MASTER_PORT=8514
 export RANK=0
 
 DATAPATH=evaluation
-dataset_name=tianwang36w
+dataset_name=tianwang51w
 
 # data options
 train_data=${DATAPATH}/datasets/${dataset_name}/lmdb/train
@@ -56,7 +56,7 @@ valid_batch_size=128
 accum_freq=1
 lr=3e-5
 wd=0.001
-max_epochs=10
+max_epochs=20
 valid_step_interval=999999
 valid_epoch_interval=1
 vision_model=ViT-B-16
