@@ -1,22 +1,22 @@
 ## 常用命令
-* tianwang数据清洗中的相似度过滤
+### tianwang数据清洗中的相似度过滤
 GPU_IDS=0,1,2,3,4,5,6,7 \
   IMAGE_BATCH_SIZE=256 \
   TEXT_BATCH_SIZE=1024 \
   IMAGE_WORKERS=12 \
   bash run_scripts/tools/filter_tianwang_caption_similarity_multi.sh
 
-* 数据转换
+### 数据转换
 bash run_scripts/tools/convert.sh
 
-* clip训练
+### clip训练
 bash run_scripts/tianwang/train/tianwang_finetune_vit-b-16_rbt-base-local.sh
 
-* clip评测
+### clip评测
 bash Chinese-CLIP/run_scripts/tianwang/eval/zeroshot_classify_multi.sh
 bash Chinese-CLIP/run_scripts/tianwang/eval/retrieval_multi.sh
 
-* 收集评测结果
+### 收集评测结果
 python run_scripts/tools/collect_zeroshot_results.py \
     --input evaluation/zeroshot_classify/tianwang51w_finetune_vit-b-16/zeroshot_classify_multi_results.txt \
     --digits 3
