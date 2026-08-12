@@ -6,10 +6,11 @@ repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 cd "${repo_root}"
 export PYTHONPATH="${PYTHONPATH:-}:$(pwd)/cn_clip"
 
-input_jsonl=/mnt/bn/yuyingchen/zk/project/miscs/tianwang/outputs/final/pairs/2015/image_text_pairs_new_with_caption.jsonl
-image_root=/mnt/bn/yuyingchen/zk/project/miscs/tianwang
+tianwang_root=${TIANWANG_ROOT:-../tianwang}
+input_jsonl=${tianwang_root}/outputs/final/pairs/2015/image_text_pairs_new_with_caption.jsonl
+image_root=${tianwang_root}
 resume=evaluation/pretrained_weights/clip_cn_vit-b-16.pt
-output_jsonl=/mnt/bn/yuyingchen/zk/project/miscs/tianwang/outputs/final/pairs/2015/image_text_pairs_new_with_caption_similarity_filtered.jsonl
+output_jsonl=${tianwang_root}/outputs/final/pairs/2015/image_text_pairs_new_with_caption_similarity_filtered.jsonl
 
 # Set GPU_IDS to the physical GPUs to use, for example: GPU_IDS=0,1,2,3
 GPU_IDS=${GPU_IDS:-0,1,2,3,4,5,6,7}

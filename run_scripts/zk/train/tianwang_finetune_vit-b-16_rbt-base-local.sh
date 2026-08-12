@@ -7,7 +7,8 @@
 # After setting the options, please run the script on each worker.
 # Command: bash run_scripts/muge_finetune_vit-b-16_rbt-base.sh ${DATAPATH}
 
-cd /mnt/bn/yuyingchen/zk/project/miscs/Chinese-CLIP
+repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)
+cd "${repo_root}"
 export PYTHONPATH=${PYTHONPATH}:`pwd`/cn_clip/
 
 export NCCL_SOCKET_FAMILY=AF_INET   # 强制使用 IPv4，避免 IPv6 干扰

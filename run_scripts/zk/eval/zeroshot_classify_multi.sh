@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-cd /mnt/bn/yuyingchen/zk/project/miscs/Chinese-CLIP
+repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)
+cd "${repo_root}"
 
 # only supports single-GPU inference
 export CUDA_VISIBLE_DEVICES=0
