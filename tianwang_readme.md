@@ -1,5 +1,8 @@
 ## 常用命令
-### tianwang数据清洗中的相似度过滤
+### 环境配置
+参考Chinese-CLIP/README.md中的流程
+
+### tianwang数据清洗中的相似度过滤步骤
 GPU_IDS=0,1,2,3,4,5,6,7 \
   IMAGE_BATCH_SIZE=256 \
   TEXT_BATCH_SIZE=1024 \
